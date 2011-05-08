@@ -220,16 +220,11 @@
 
     $(document).ready(function()
                       {
-                          var sys = arbor.ParticleSystem(1000, 800, 0.5) // create the system with sensible repulsion/stiffness/friction
+                          var sys = arbor.ParticleSystem(2, 2, 0.02, true) // create the system with sensible repulsion/stiffness/friction
                           sys.renderer = Renderer("#sitemap")
 
-                          // pick a random datafile and load it
-                          var allbirds = ["bk42w74", "bk43w73", "bk70bk62", "bk95bk3", "g81w58", "g83w57", "pk60gr7", "r15bl29", "r17pu46"]
-                          var alltrans = "frm"
-                          var randBird = allbirds[Math.floor(Math.random() * allbirds.length)] + "-" + alltrans[Math.floor(Math.random() * alltrans.length)] + ".json"
-
                           // load the data into the particle system as is (since it's already formatted correctly for .grafting)
-                          var data = $.getJSON("graphs/" + randBird, function(data)
+                          var data = $.getJSON("g/n.json", function(data)
                           {
                             $.each(data.nodes, function(key, value) {
                                 value.color = 0;
