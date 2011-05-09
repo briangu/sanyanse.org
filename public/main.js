@@ -227,7 +227,7 @@
                           var data = $.getJSON("g/n.json?p=0.30&count=16", function(data)
                           {
                             $.each(data.nodes, function(key, value) {
-                                value.color = 0;
+//                                value.color = 0;
                                 value.alpha = 1.0;
                             });
 
@@ -238,14 +238,6 @@
                                 node.tempMass =  Math.random() * 100
                               })
                           })
-
-                          // display the name and handle clicks on the ‘see another’ link
-                          $("#label > span").html(randBird.replace(/.json$/, "").toUpperCase())
-                          $("a.another").click(function()
-                                               {
-                                                   window.location.reload();
-                                                   return false
-                                               })
                       })
 
 })(this.jQuery)

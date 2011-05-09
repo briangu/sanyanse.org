@@ -13,8 +13,8 @@ class GraphController < ApplicationController
     @bins = [{},{},{}]
 
     (0..@count-1).each do |i|
-      @result["nodes"][i] = {}
       idx = rand(3)
+      @result["nodes"][i] = { "color" => idx + 1} 
       @bins[idx][i] = {}
     end
 
