@@ -220,11 +220,11 @@
 
     $(document).ready(function()
                       {
-                          var sys = arbor.ParticleSystem(2, 2, 0.02, true) // create the system with sensible repulsion/stiffness/friction
+                          var sys = arbor.ParticleSystem(50, 12, 0.24, true, 55, 0.02, 0.4) // create the system with sensible repulsion/stiffness/friction
                           sys.renderer = Renderer("#sitemap")
 
                           // load the data into the particle system as is (since it's already formatted correctly for .grafting)
-                          var data = $.getJSON("g/n.json", function(data)
+                          var data = $.getJSON("g/n.json?p=0.30&count=16", function(data)
                           {
                             $.each(data.nodes, function(key, value) {
                                 value.color = 0;
@@ -232,6 +232,11 @@
                             });
 
                               sys.graft({nodes:data.nodes, edges:data.edges})
+
+			      sys.eachNode(function(node, pt)
+                              {
+                                node.tempMass =  Math.random() * 100
+                              })
                           })
 
                           // display the name and handle clicks on the ‘see another’ link

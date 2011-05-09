@@ -2,8 +2,10 @@ class GraphController < ApplicationController
 
   def generate
 
-    @p = params[:p] || 0.30
-    @count = params[:count] || 16
+    @x = params[:p] || 0.30
+    @p = @x.to_f
+    @x = params[:count] || 16
+    @count = @x.to_i
 
     @result = { "nodes" => {}, "edges" => {}, "_" => "random graph"}
 
