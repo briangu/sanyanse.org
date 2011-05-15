@@ -18,6 +18,8 @@
     var backlogQueue = new Array();
     var backlogMap = {};
     var sys;
+    var nodeCount = 0;
+    var maxNodes = 20;
 
     var onLinkedInLoad = function()
     {
@@ -50,7 +52,7 @@
             }
         }
 
-        if (readyQueue.length > 0)
+        if (readyQueue.length > 0 && nodeCount < maxNodes)
         {
             var added;
             do {
@@ -237,6 +239,8 @@
 
         $("#networkupdates").append(updateHtml);
 
+        nodeCount++;
+
         return true
     }
 
@@ -354,6 +358,7 @@
                             {
 //                                dragged.node.data.color = (dragged.node.data.color + 1) % 4
                                 sys.pruneNode(dragged.node);
+                                nodeCount--;
                             }
                         }
                         dragged.node.tempMass = 1000
