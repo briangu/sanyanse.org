@@ -383,7 +383,7 @@
                       {
 //                          sys = arbor.ParticleSystem(50, 12, 0.24, true, 55, 0.10, 0.4) // create the system with sensible repulsion/stiffness/friction
                           sys = arbor.ParticleSystem();
-                          sys.parameters({stiffness:100, repulsion:50, gravity:true, dt:0.015});
+                          sys.parameters({stiffness:100, repulsion:100, gravity:true, dt:0.005});
                           sys.renderer = Renderer("#sitemap")
 
                           // load the data into the particle system as is (since it's already formatted correctly for .grafting)
