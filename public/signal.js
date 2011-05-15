@@ -289,9 +289,8 @@
                 gfx.clear()
                 sys.eachEdge(function(edge, p1, p2)
                              {
-                                 return;
                                  if (edge.source.data.alpha * edge.target.data.alpha == 0) return
-//                                 gfx.line(p1, p2, {stroke:"#b2b19d", width:2, alpha:edge.target.data.alpha})
+                                 gfx.line(p1, p2, {stroke:"#EEEEEE", width:1, alpha:edge.target.data.alpha})
                              })
                 sys.eachNode(function(node, pt)
                              {
@@ -381,9 +380,9 @@
 
     $(document).ready(function()
                       {
-//                          sys = arbor.ParticleSystem(50, 12, 0.24, true, 55, 0.10, 0.4) // create the system with sensible repulsion/stiffness/friction
-                          sys = arbor.ParticleSystem();
-                          sys.parameters({stiffness:100, repulsion:100, gravity:true, dt:0.005});
+                          sys = arbor.ParticleSystem(500, 120, 0.24, true, 55, 0.005, 0.4) // create the system with sensible repulsion/stiffness/friction
+//                          sys = arbor.ParticleSystem();
+//                          sys.parameters({stiffness:500, repulsion:50, gravity:true, dt:0.005});
                           sys.renderer = Renderer("#sitemap")
 
                           // load the data into the particle system as is (since it's already formatted correctly for .grafting)
@@ -392,6 +391,7 @@
                             $.each(data.nodes, function(key, value) {
 //                                value.color = 0;
                                 value.alpha = 1.0;
+                                value.fixed = true;
                             });
 
                             sys.graft({nodes:data.nodes, edges:data.edges})
