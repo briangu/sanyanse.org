@@ -23,7 +23,6 @@ class GraphController < ApplicationController
     end
   end
 
-
   def generate
 
     @x = params[:p] || 0.30
