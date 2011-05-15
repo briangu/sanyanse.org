@@ -68,7 +68,7 @@
 
     var onBacklogTimeout = function()
     {
-        while (backlogQueue.length > 0)
+        while (backlogQueue.length > 0 && (nodeCount < maxNodes - 3))
         {
             var query = backlogQueue.pop();
             backlogMap[query] = undefined;
@@ -354,6 +354,24 @@
                             if (!dragged.node.data.moved)
                             {
 //                                dragged.node.data.color = (dragged.node.data.color + 1) % 4
+                                var edges = sys.getEdgesFrom(dragged.node);
+                                $.each(edges, function(index,value) {
+                                    sys.pruneEdge(value);
+                                });
+                                var edges = sys.getEdgesTo(dragged.node);
+                                $.each(edges, function(index,value) {
+                                    sys.pruneEdge(value);
+                                });
+                                $.each(industryMap, function(key, value){
+                                    var tmpArray = new Array();
+                                    $.each(value, function(i2, v2){
+                                       if (v2.updateKey != dragged.node.name) {
+                                         tmpArray.push(v2);
+                                       }
+                                    });
+                                    industryMap[key] = tmpArray;
+                                });
+
                                 sys.pruneNode(dragged.node);
                                 updateMap[node.name] = undefined;
                                 // TODO: prune industryMap
