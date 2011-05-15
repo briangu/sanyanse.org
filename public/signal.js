@@ -169,7 +169,7 @@
 //        data.y
         sys.addNode(update.updateKey, data);
         sys.addEdge(update.updateKey, "0", {});
-        sys.addEdge("0", update.updateKey, {});
+//        sys.addEdge("0", update.updateKey, {});
 
 // add edges by walking industryMap
         facets = updateMap[update.updateKey]["facets"];
@@ -264,14 +264,13 @@
         var sys = null
         var colors = ["#EEEEEE", "#7F7F7F", "#EEEEEE", "#EEEEEE"]
 
-        var _vignette = null
         var _mouseP = null;
 
         var that = {
             init:function(pSystem)
             {
                 sys = pSystem
-                sys.screen({size:{width:dom.width(), height:dom.height()}, padding:[36,60,36,60]})
+                sys.screen({size:{width:dom.width(), height:dom.height()}, padding:[100,100,100,100]})
                 $(window).resize(that.resize)
                 that.resize()
                 that._initMouseHandling()
@@ -279,9 +278,8 @@
             resize:function()
             {
                 canvas.width = $(window).width()
-                canvas.height = .75 * $(window).height()
+                canvas.height = $(window).height()
                 sys.screen({size:{width:canvas.width, height:canvas.height}})
-                _vignette = null
                 that.redraw()
             },
             redraw:function()
@@ -357,6 +355,9 @@
                             {
 //                                dragged.node.data.color = (dragged.node.data.color + 1) % 4
                                 sys.pruneNode(dragged.node);
+                                updateMap[node.name] = undefined;
+                                // TODO: prune industryMap
+                                // does this remove all the edges too?
                                 nodeCount--;
                             }
                         }
@@ -391,7 +392,6 @@
                             $.each(data.nodes, function(key, value) {
 //                                value.color = 0;
                                 value.alpha = 1.0;
-                                value.fixed = true;
                             });
 
                             sys.graft({nodes:data.nodes, edges:data.edges})

@@ -8,7 +8,7 @@ class GraphController < ApplicationController
 
     @result = { "nodes" => {}, "edges" => {}, "_" => "random graph"}
 
-    @result["nodes"][0] = { "color" => 1, "mass" => 1000 }
+    @result["nodes"][0] = { "color" => 1, "mass" => 10000, "x" => 0, "y" => 0 }
     @result["edges"][0] = {}
 
     (1..@count).each do |i|
