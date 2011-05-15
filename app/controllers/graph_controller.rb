@@ -1,5 +1,29 @@
 class GraphController < ApplicationController
 
+  def star
+    @x = params[:p] || 0.30
+    @p = @x.to_f
+    @x = params[:count] || 16
+    @count = @x.to_i
+
+    @result = { "nodes" => {}, "edges" => {}, "_" => "random graph"}
+
+    @result["nodes"][0] = { "color" => 1 }
+    @result["edges"][0] = {}
+
+    (1..@count).each do |i|
+      @result["nodes"][i] = { "color" => 0 }
+      @result["edges"][0][i] = {}
+      @result["edges"][i] = {}
+      @result["edges"][i][0] = { "length" => 0.1 }
+    end
+
+    respond_to do |format|
+      format.all { render :json => @result }
+    end
+  end
+
+
   def generate
 
     @x = params[:p] || 0.30
@@ -39,7 +63,7 @@ class GraphController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render :json => @result }
+      format.all { render :json => @result }
     end
   end
 end

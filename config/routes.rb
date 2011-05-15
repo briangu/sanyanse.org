@@ -1,6 +1,7 @@
 Sysweb::Application.routes.draw do
 
   match 'g/n' => 'graph#generate'
+  match 'g/s' => 'graph#star'
 
 
   # The priority is based upon order of creation:
