@@ -63,51 +63,6 @@
                              })
             },
 
-            switchMode:function(e)
-            {
-                if (e.mode == 'hidden')
-                {
-                    dom.stop(true).fadeTo(e.dt, 0, function()
-                    {
-                        if (sys) sys.stop()
-                        $(this).hide()
-                    })
-                } else if (e.mode == 'visible')
-                {
-                    dom.stop(true).css('opacity', 0).show().fadeTo(e.dt, 1, function()
-                    {
-                        that.resize()
-                    })
-                    if (sys) sys.start()
-                }
-            },
-
-            switchSection:function(newSection)
-            {
-                var parent = sys.getEdgesFrom(newSection)[0].source
-                var children = $.map(sys.getEdgesFrom(newSection), function(edge)
-                {
-                    return edge.target
-                })
-
-                sys.eachNode(function(node)
-                             {
-                                 if (node.data.shape == 'dot') return // skip all but leafnodes
-
-                                 var nowVisible = ($.inArray(node, children) >= 0)
-                                 var newAlpha = (nowVisible) ? 1 : 0
-                                 var dt = (nowVisible) ? .5 : .5
-                                 sys.tweenNode(node, dt, {alpha:newAlpha})
-
-                                 if (newAlpha == 1)
-                                 {
-                                     node.p.x = parent.p.x + .05 * Math.random() - .025
-                                     node.p.y = parent.p.y + .05 * Math.random() - .025
-                                     node.tempMass = .001
-                                 }
-                             })
-            },
-
             _initMouseHandling:function()
             {
                 // no-nonsense drag and drop (thanks springy.js)
