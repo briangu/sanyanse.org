@@ -1,0 +1,261 @@
+<html> 
+<head> 
+<title>LinkedIn JavaScript API Hello World</title> 
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+
+<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+//  api_key: yqQd9hQtbDqlu6ns_mY8r10oBFoj2PrTp6mJkea879iGwVpNyfdmXPcKZNMF7upb
+  api_key: m0pUn1k9pxhV5NtJ21p-gyr2UeeX9CmYx3ZtQ-IjIoVlTrS5mur6nOAGhCkrLKbI
+  onLoad: onLinkedInLoad
+  authorize: true
+</script>
+<script type="text/javascript">
+
+  var after = 0;
+  var tid = -1;
+  var bltid = -1;
+  var pollInterval = 10000;
+  var fetchQueue = new Array();
+  var updateCache = {};
+  var facetCache = {};
+  var industryMap = {};
+
+  var offset = 0;
+  var lastUpdateKey = 0;
+  var historicalBacklogIdx = 50;  // go back 20 articles from when we start
+  var networkQuery = "network,0,1";
+
+  function trace(msg){
+    if (typeof(window)=='undefined' || !window.console) return
+    var len = arguments.length, args = [];
+    for (var i=0; i<len; i++) args.push("arguments["+i+"]")
+    eval("console.log("+args.join(",")+")")
+  }
+
+  // 2. Runs when the JavaScript framework is loaded
+  function onLinkedInLoad() {
+    IN.Event.on(IN, "auth", onLinkedInAuth);
+  }
+ 
+  // 2. Runs when the viewer has authenticated
+  function onLinkedInAuth() {
+    tid = setTimeout("onPollTimeout()", 10)
+    bltid = setTimeout("onBacklogTimeout()", 10)
+  }
+
+  function onPollTimeout() {
+    if (fetchQueue.length <= 1)
+    {
+      var params = {facet:networkQuery, facets:"industry", count:1};
+      if (after > 0)
+      {
+        params["after"] = after;
+        params["poll"] = "true";
+      }
+      IN.API.Raw("/signal-search:(offset,facets,updates)")
+        .params(params)
+        .result(processPollFetchResults)
+        .error(displayNetworkUpdatesError);
+    }
+
+    if (fetchQueue.length > 0)
+    {
+      var added;
+      do {
+        var update = fetchQueue.pop();
+        added = addUpdate(update);
+      } while(!added && fetchQueue.length > 0);
+    }
+
+    clearTimeout(tid);
+    tid = setTimeout("onPollTimeout()", pollInterval)
+  }
+
+  function onBacklogTimeout() {
+    if (historicalBacklogIdx > 0)
+    {
+      trace('blidx: ' + historicalBacklogIdx--);
+
+      var params = {facet:networkQuery, facets:"industry", count:1};
+      if (offset > 0)
+      {
+        params["offset"] = offset;
+        params["update_key"] = lastUpdateKey;
+        trace("offset: " + offset + ", update_key: " + lastUpdateKey);
+      }
+      IN.API.Raw("/signal-search")
+        .params(params)
+        .result(processBacklogFetchResults)
+        .error(displayNetworkUpdatesError);
+
+      clearTimeout(bltid);
+      bltid = setTimeout("onBacklogTimeout()", 2000)
+    }
+  }
+
+  function processPollFetchResults(result) {
+    if (result.numResults == undefined || result.numResults == 0) return;
+    if (result.updates == undefined || result.updates.values == undefined) return;
+
+    var updates = result.updates;
+    if (updates.values.length == 0) return;
+
+    after = updates.values[0].timestamp;
+
+    for (var idx in updates.values) {
+      var update = updates.values[idx];
+      trace("poll update: " + update.updateKey);
+      if (update.updateContent == undefined) {
+        continue;
+      }
+      person = update.updateContent.person
+      if (person.currentShare == undefined) {
+        continue;
+      }
+      var share = person.currentShare;
+      if (updateCache[update.updateKey] != undefined) {
+        continue; // hit an update we have already seen
+      }
+
+      // add new node (no edges yet)
+      fetchQueue.unshift(update);
+      facets = result.facets.values[0].buckets.values;
+      $.each(facets, function(index, value) {
+        trace(value.code);
+      });
+      updateCache[update.updateKey] = {update:update, facets:facets};
+
+      // http://www.linkedin.com/cws/share-count?url=http://www.cnn.com
+    }
+  }
+
+  function processBacklogFetchResults(result) {
+    if (result.numResults == undefined || result.numResults == 0) return;
+    if (result.updates == undefined || result.updates.values == undefined) return;
+
+    var updates = result.updates;
+    if (updates.values.length == 0) return;
+
+    offset = result.offset;
+
+    for (var idx in updates.values) {
+      var update = updates.values[idx];
+      trace("bl update: " + update.updateKey);
+      if (update.updateContent == undefined) {
+        offset++;
+        lastUpdateKey = update.updateKey;
+        continue;
+      }
+      person = update.updateContent.person
+      if (person.currentShare == undefined) {
+        offset++;
+        lastUpdateKey = update.updateKey;
+        continue;
+      }
+      var share = person.currentShare;
+      if (updateCache[update.updateKey] != undefined) {
+        offset++;
+        lastUpdateKey = update.updateKey;
+        continue; // hit an update we have already seen
+      }
+
+      // the items we are receiving are getting older, so put them at the end to make a LIFO
+      fetchQueue.push(update);
+      facets = result.facets.values[0].buckets.values;
+      $.each(facets, function(index, value) {
+        trace(value.code);
+      });
+      updateCache[update.updateKey] = {update:update, facets:facets};
+
+      // http://www.linkedin.com/cws/share-count?url=http://www.cnn.com
+
+      lastUpdateKey = update.updateKey;
+      offset++;
+    }
+  }
+
+  function addUpdate(update)
+  {
+    var person = update.updateContent.person
+    var share = person.currentShare;
+
+    // add edges by walking industryMap
+    facets = updateCache[update.updateKey]["facets"];
+    trace("update edges: " + update.updateKey);
+    $.each(facets, function(index, value) {
+      trace(value.code);
+      if (industryMap[value.code] != undefined)
+      {
+        // a node already exists that shares the same industry
+        $.each(industryMap[value.code], function(i2, v2) {
+          trace("  connects to: " + v2.updateKey);
+        });
+      }
+      else
+      {
+        industryMap[value.code] = new Array();
+      }
+      // newNode = sys.addNode(...);
+      // industryMap[value.code].push(newNode);
+
+      // tmp hack to track graph during development
+      industryMap[value.code].push(update);
+    });
+
+    var updateHtml = "<div id='"+ share.id +"' class=streamitem>";
+
+    // Person's picture,  linked name, and status
+/*
+    updateHtml += "<div class=updateperson>" ;
+    updateHtml += "<img class=img_border align=\"left\" height=\"50\" src=\"" + person.pictureUrl + "\"></a>";
+    if (person.publicProfileUrl != undefined) {
+      updateHtml += "<a href=\"" + person.publicProfileUrl + "\">";
+      updateHtml += "<span class=updater>" + person.firstName + " " + person.lastName + "</span>";
+      updateHtml += "</a>";
+    } else {
+      updateHtml += "<span class=updater>" + person.firstName + " " + person.lastName + "</span>";
+    }
+    updateHtml += "</div>";
+*/
+    if (share.comment != undefined) {
+//      updateHtml += "<p class=update>" + share.comment + "</p>";
+    }
+    if (share.content != undefined) {
+/*
+          description: "Facebook has admitted that it has authorized an effort to raise privacy concerns about a Google product. But why do so in the first place?"
+          eyebrowUrl: "http://www.linkedin.com/share?viewLink=&sid=s384308659&url=http%3A%2F%2Flnkd%2Ein%2F8PAND6&urlhash=bvRj&uid=5474990238310858752"
+          shortenedUrl: "http://lnkd.in/8PAND6"
+          submittedImageUrl: "http://5.mshcdn.com/wp-content/uploads/2011/03/facebook-like-dislike-360.jpg"
+          submittedUrl: "http://mashable.com/2011/05/12/facebook-google-smear-campaign/?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+Mashable+%28Mashable%29"
+          thumbnailUrl: "https://www.linkedin.com/media-proxy/ext?w=80&h=100&hash=F%2Bk1dscV2yElKu1Wcluu1m1XUIk%3D&url=http%3A%2F%2F5.mshcdn.com%2Fwp-content%2Fuploads%2F2011%2F03%2Ffacebook-like-dislike-360.jpg"
+          title: "In Trying to Plant Google Privacy Story, Did Facebook Have a Point?"
+*/
+      updateHtml += "<div>";
+      updateHtml += "<img src=\"" + share.content.thumbnailUrl + "\"/>";
+//      updateHtml += "<div>" + share.content.description + "</div>";
+      updateHtml += "<a target='_blank' href=\"" + share.content.eyebrowUrl + "\">"+share.content.title+"</a>";
+      updateHtml += "</div>";
+    }
+
+    updateHtml += "</div>";
+
+    $("#networkupdates").append(updateHtml);
+
+    return true
+  }
+
+  function displayNetworkUpdatesError(error) { /* do nothing */ }
+</script> 
+</head> 
+<body> 
+ 
+<!-- 3. Displays a button to let the viewer authenticate --> 
+<script type="IN/Login"></script> 
+ 
+<!-- 4. Placeholder for the greeting --> 
+<div id="networkupdates"></div> 
+ 
+</body> 
+</html>
+
