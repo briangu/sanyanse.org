@@ -5,8 +5,8 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
 
 <script type="text/javascript" src="http://platform.linkedin.com/in.js">
-//  api_key: yqQd9hQtbDqlu6ns_mY8r10oBFoj2PrTp6mJkea879iGwVpNyfdmXPcKZNMF7upb
-  api_key: m0pUn1k9pxhV5NtJ21p-gyr2UeeX9CmYx3ZtQ-IjIoVlTrS5mur6nOAGhCkrLKbI
+  api_key: yqQd9hQtbDqlu6ns_mY8r10oBFoj2PrTp6mJkea879iGwVpNyfdmXPcKZNMF7upb
+//  api_key: m0pUn1k9pxhV5NtJ21p-gyr2UeeX9CmYx3ZtQ-IjIoVlTrS5mur6nOAGhCkrLKbI
   onLoad: onLinkedInLoad
   authorize: true
 </script>
@@ -15,16 +15,15 @@
   var after = 0;
   var tid = -1;
   var bltid = -1;
-  var pollInterval = 10000;
-  var fetchQueue = new Array();
-  var updateCache = {};
-  var facetCache = {};
-  var industryMap = {};
+  var pollInterval = 2000;
 
-  var offset = 0;
-  var lastUpdateKey = 0;
-  var historicalBacklogIdx = 50;  // go back 20 articles from when we start
-  var networkQuery = "network,0,1";
+  var fetchCount = 100;
+
+  var updateMap = {};
+  var industryMap = {};
+  var readyQueue = new Array();
+  var backlogQueue = new Array();
+  var backlogMap = {};
 
   function trace(msg){
     if (typeof(window)=='undefined' || !window.console) return
@@ -45,27 +44,36 @@
   }
 
   function onPollTimeout() {
-    if (fetchQueue.length <= 1)
+    if (readyQueue.length <= 1)
     {
-      var params = {facet:networkQuery, facets:"industry", count:1};
-      if (after > 0)
+      if (fetchCount > 0)
       {
-        params["after"] = after;
-        params["poll"] = "true";
+        // only scan our 1st degree network looking for new articles
+        var params = {facet:"network,0,1", facets:"industry", count: fetchCount};
+        IN.API.Raw("/signal-search:(offset,facets,updates,num-results)")
+          .params(params)
+          .result(processFetchResults)
+          .error(displayNetworkUpdatesError);
+        fetchCount = 0;
       }
-      IN.API.Raw("/signal-search:(offset,facets,updates)")
-        .params(params)
-        .result(processPollFetchResults)
-        .error(displayNetworkUpdatesError);
+      else
+      {
+        // only scan our 1st degree network looking for new articles
+        var params = {facet:"network,0,1", facets:"industry", after: after, poll:"true"};
+        IN.API.Raw("/signal-search:(offset,facets,updates,num-results)")
+          .params(params)
+          .result(processPollCountFetchResults)
+          .error(displayNetworkUpdatesError);
+      }
     }
 
-    if (fetchQueue.length > 0)
+    if (readyQueue.length > 0)
     {
       var added;
       do {
-        var update = fetchQueue.pop();
+        var update = readyQueue.pop();
         added = addUpdate(update);
-      } while(!added && fetchQueue.length > 0);
+      } while(!added && readyQueue.length > 0);
     }
 
     clearTimeout(tid);
@@ -73,35 +81,38 @@
   }
 
   function onBacklogTimeout() {
-    if (historicalBacklogIdx > 0)
+    while(backlogQueue.length > 0)
     {
-      trace('blidx: ' + historicalBacklogIdx--);
+      var query = backlogQueue.pop();
+      backlogMap[query] = undefined;
 
-      var params = {facet:networkQuery, facets:"industry", count:1};
-      if (offset > 0)
-      {
-        params["offset"] = offset;
-        params["update_key"] = lastUpdateKey;
-        trace("offset: " + offset + ", update_key: " + lastUpdateKey);
-      }
+      trace('bl query: ' + query);
+
+      // scan 0,1,2 degree networks to include attributions
+      var params = {facet:"network,0,1,2", facets:"industry", count:10, keywords: query};
       IN.API.Raw("/signal-search")
         .params(params)
         .result(processBacklogFetchResults)
         .error(displayNetworkUpdatesError);
-
-      clearTimeout(bltid);
-      bltid = setTimeout("onBacklogTimeout()", 2000)
     }
+
+    clearTimeout(bltid);
+    bltid = setTimeout("onBacklogTimeout()", 2000)
   }
 
-  function processPollFetchResults(result) {
+  function processPollCountFetchResults(result) {
     if (result.numResults == undefined || result.numResults == 0) return;
-    if (result.updates == undefined || result.updates.values == undefined) return;
+
+    fetchCount = result.numResults;
+  }
+
+  function processFetchResults(result) {
+    if (result.updates == undefined || result.updates.values == undefined || result.updates.values.length == 0) return;
 
     var updates = result.updates;
-    if (updates.values.length == 0) return;
-
     after = updates.values[0].timestamp;
+
+    if (updates.values.length == 0) return;
 
     for (var idx in updates.values) {
       var update = updates.values[idx];
@@ -114,64 +125,41 @@
         continue;
       }
       var share = person.currentShare;
-      if (updateCache[update.updateKey] != undefined) {
+      if (updateMap[update.updateKey] != undefined) {
         continue; // hit an update we have already seen
       }
 
-      // add new node (no edges yet)
-      fetchQueue.unshift(update);
-      facets = result.facets.values[0].buckets.values;
-      $.each(facets, function(index, value) {
-        trace(value.code);
-      });
-      updateCache[update.updateKey] = {update:update, facets:facets};
+      personKey = person.firstName + " " + person.lastName;
+      if (backlogMap[personKey] != undefined) continue;
 
-      // http://www.linkedin.com/cws/share-count?url=http://www.cnn.com
+      backlogQueue.unshift(personKey);
+      backlogMap[personKey] = "";
     }
   }
 
   function processBacklogFetchResults(result) {
-    if (result.numResults == undefined || result.numResults == 0) return;
-    if (result.updates == undefined || result.updates.values == undefined) return;
+    if (result.updates == undefined || result.updates.values == undefined || result.updates.values.length == 0) return;
 
     var updates = result.updates;
-    if (updates.values.length == 0) return;
-
-    offset = result.offset;
 
     for (var idx in updates.values) {
       var update = updates.values[idx];
       trace("bl update: " + update.updateKey);
-      if (update.updateContent == undefined) {
-        offset++;
-        lastUpdateKey = update.updateKey;
-        continue;
-      }
+      if (update.updateContent == undefined) continue;
       person = update.updateContent.person
-      if (person.currentShare == undefined) {
-        offset++;
-        lastUpdateKey = update.updateKey;
-        continue;
-      }
+      if (person.currentShare == undefined) continue;
       var share = person.currentShare;
-      if (updateCache[update.updateKey] != undefined) {
-        offset++;
-        lastUpdateKey = update.updateKey;
-        continue; // hit an update we have already seen
-      }
+      if (updateMap[update.updateKey] != undefined) continue;
 
       // the items we are receiving are getting older, so put them at the end to make a LIFO
-      fetchQueue.push(update);
+      readyQueue.push(update);
       facets = result.facets.values[0].buckets.values;
       $.each(facets, function(index, value) {
         trace(value.code);
       });
-      updateCache[update.updateKey] = {update:update, facets:facets};
+      updateMap[update.updateKey] = {update:update, facets:facets};
 
       // http://www.linkedin.com/cws/share-count?url=http://www.cnn.com
-
-      lastUpdateKey = update.updateKey;
-      offset++;
     }
   }
 
@@ -181,7 +169,7 @@
     var share = person.currentShare;
 
     // add edges by walking industryMap
-    facets = updateCache[update.updateKey]["facets"];
+    facets = updateMap[update.updateKey]["facets"];
     trace("update edges: " + update.updateKey);
     $.each(facets, function(index, value) {
       trace(value.code);
