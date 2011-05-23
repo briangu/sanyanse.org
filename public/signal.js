@@ -42,22 +42,9 @@
   {
     Array.prototype.shuffle = function()
     {
-      if (this.length < 2) return this;
-
+      if (this.length <= 1) return this;
       var result = this.concat();
-      var arr = this;
-      for (var i = 0; i < result.length; i++)
-      {
-        var j = i;
-        while (j == i)
-        {
-          j = Math.floor(Math.random() * result.length);
-        }
-        var contents = result[i];
-        result[i] = arr[j];
-        result[j] = contents;
-      }
-
+      result.sort(function() {return 0.5 - Math.random()});
       return result;
     };
   }
