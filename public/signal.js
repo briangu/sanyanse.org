@@ -92,8 +92,8 @@
       }
       else
       {
-//        var params = {facet:"network,0,1", facets:"industry,company", after: after, poll:"true"};
-//        IN.API.Raw("/signal-search:(offset,facets,updates,num-results)").params(params).result(processPollCountFetchResults).error(displayNetworkUpdatesError);
+        var params = {facet:"network,0,1", facets:"industry,company", after: after, poll:"true"};
+        IN.API.Raw("/signal-search:(offset,facets,updates,num-results)").params(params).result(processPollCountFetchResults).error(displayNetworkUpdatesError);
       }
       didSomething = true;
     }

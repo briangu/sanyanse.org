@@ -144,8 +144,8 @@ text-indent: -12345px;
   background-position: 50% 50%;
   background-repeat: no-repeat;
 
-  background: -moz-linear-gradient(0deg, #1a82f7, #FFFFFF);
-  background: -webkit-gradient(linear, right middle, left middle, from(#1a82f7), to(#FFFFFF));
+  background: -moz-linear-gradient(0deg, #FFFFFF, #1a82f7);
+  background: -webkit-gradient(linear, right, left, from(#1a82f7), to(#FFFFFF));
   /* Firefox 3.6+ */
   /* -moz-radial-gradient( [<position> || <angle>,]? [<shape> || <size>,]? <stop>, <stop>[, <stop>]* ) */
 
