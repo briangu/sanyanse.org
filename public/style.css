@@ -176,3 +176,48 @@ text-indent: -12345px;
 
   /* Opera cannot do radial gradients yet */
 }
+
+.header {
+/*  clip: rect(0px, 1500px, 40px, 0px); */
+  position: absolute;
+  margin-left: 120px;
+  margin-top: 0px;
+  top: 0px;
+  height: 40px;
+  left: 0px;
+  overflow: hidden;
+}
+
+.footer {
+  overflow: hidden;
+/*  clip: rect(0px, 1144px, 60px, 0px); */
+  position: absolute;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  left: 0px;
+  bottom: 20px;
+}
+
+.button_text {
+  color: #FFFFFF;
+  font-size: 28;
+  z-index: 999;
+  top: -25px;
+  position: absolute;
+}
+
+.industry {
+  left: 200px;
+}
+
+.company {
+  left: 350px;
+}
+
+.source {
+  left: 515px;
+}
+
+.location {
+  left: 650px;
+}
