@@ -1,0 +1,448 @@
+DROP TABLE INDUSTRIES
+GO
+CREATE TABLE INDUSTRIES  ( 
+	ID  	INTEGER NULL,
+	NAME	TEXT NULL 
+	)
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(1, 'defense & space')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(3, 'computer hardware')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(4, 'computer software')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(5, 'computer networking')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(6, 'internet')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(7, 'semiconductors')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(8, 'telecommunications')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(9, 'law practice')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(10, 'legal services')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(11, 'management consulting')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(12, 'biotechnology')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(13, 'medical practice')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(14, 'hospital & health care')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(15, 'pharmaceuticals')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(16, 'veterinary')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(17, 'medical equipment')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(18, 'cosmetics')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(19, 'apparel and fashion')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(20, 'sporting goods')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(21, 'tobacco')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(22, 'supermarkets')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(23, 'food production')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(24, 'consumer electronics')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(25, 'consumer goods')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(26, 'furniture')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(27, 'retail')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(28, 'entertainment')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(29, 'gambling & casinos')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(30, 'leisure & travel')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(31, 'hospitality')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(32, 'restaurants')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(33, 'sports')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(34, 'food & beverages')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(35, 'motion pictures and film')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(36, 'broadcast media')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(37, 'museums and institutions')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(38, 'fine art')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(39, 'performing arts')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(40, 'recreational facilities and services')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(41, 'banking')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(42, 'insurance')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(43, 'financial services')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(44, 'real estate')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(45, 'investment banking/venture')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(46, 'investment management')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(47, 'accounting')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(48, 'construction')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(49, 'building materials')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(50, 'architecture & planning')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(51, 'civil engineering')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(52, 'aviation and aerospace')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(53, 'automotive')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(54, 'chemicals')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(55, 'machinery')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(56, 'mining & metals')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(57, 'oil & energy')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(58, 'shipbuilding')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(59, 'utilities')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(60, 'textiles')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(61, 'paper & forest products')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(62, 'railroad manufacture')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(63, 'farming')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(64, 'ranching')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(65, 'dairy')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(66, 'fishery')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(67, 'primary/secondary')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(68, 'higher education')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(69, 'education management')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(70, 'research')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(71, 'military')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(72, 'legislative office')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(73, 'judiciary')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(74, 'international affairs')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(75, 'government administration')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(76, 'executive office')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(77, 'law enforcement')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(78, 'public safety')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(79, 'public policy')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(80, 'marketing and advertising')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(81, 'newspapers')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(82, 'publishing')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(83, 'printing')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(84, 'information services')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(85, 'libraries')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(86, 'environmental services')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(87, 'package/freight delivery')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(88, 'individual and family services')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(89, 'religious institutions')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(90, 'civic & social organization')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(91, 'consumer services')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(92, 'transportation/trucking/railroad')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(93, 'warehousing')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(94, 'airlines/aviation')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(95, 'maritime')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(96, 'information technology and services')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(97, 'market research')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(98, 'public relations')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(99, 'design')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(100, 'non-profit organization management')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(101, 'fundraising')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(102, 'program development')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(103, 'writing and editing')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(104, 'staffing and recruiting')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(105, 'professional training')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(106, 'venture capital')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(107, 'political organization')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(108, 'translation and localization')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(109, 'computer games')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(110, 'events services')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(111, 'arts and crafts')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(112, 'electrical and electronic manufacturing')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(113, 'online publishing')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(114, 'nanotechnology')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(115, 'music')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(116, 'logistics and supply chain')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(117, 'plastics')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(118, 'computer and network security')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(119, 'wireless')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(120, 'alternative dispute resolution')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(121, 'security and investigations')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(122, 'facilities services')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(123, 'outsourcing/offshoring')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(124, 'health, wellness and fitness')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(125, 'alternative medicine')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(126, 'media production')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(127, 'animation')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(128, 'commercial real estate')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(129, 'capital markets')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(130, 'think tanks')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(131, 'philanthropy')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(132, 'e-learning')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(133, 'wholesale')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(134, 'import and export')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(135, 'mechanical or industrial engineering')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(136, 'photography')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(137, 'human resources')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(138, 'business supplies and equipment')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(139, 'mental health care')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(140, 'graphic design')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(141, 'international trade and development')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(142, 'wine and spirits')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(143, 'luxury goods and jewelry')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(144, 'renewables and environment')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(145, 'glass, ceramics and concrete')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(146, 'packaging and containers')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(147, 'industrial automation')
+GO
+INSERT INTO INDUSTRIES(ID, NAME)
+  VALUES(148, 'government relations')
+GO

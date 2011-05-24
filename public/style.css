@@ -20,11 +20,11 @@
   clip : auto;
 
   color: #FFFFFF;
-  background-color: #66ccff;
-  border-top:3px solid #3399dd;
-  border-bottom:3px  solid #3399dd;
-  border-left:3px  solid #3399dd;
-  border-right:3px  solid #3399dd;
+  background-color: #9E5660;
+  border-top:3px solid #9E5660;
+  border-bottom:3px  solid #9E5660;
+  border-left:3px  solid #9E5660;
+  border-right:3px  solid #9E5660;
 }
 
 .update1 {
@@ -38,11 +38,11 @@
   clip : auto;
 
   color: #FFFFFF;
-  background-color: #990000;
-  border-top:3px solid #660000;
-  border-bottom:3px  solid #660000;
-  border-left:3px  solid #660000;
-  border-right:3px  solid #660000;
+  background-color: #00A1AE;
+  border-top:3px solid #00A1AE;
+  border-bottom:3px  solid #00A1AE;
+  border-left:3px  solid #00A1AE0;
+  border-right:3px  solid #00A1AE;
 }
 
 .update2 {
@@ -56,11 +56,11 @@
   clip : auto;
 
   color: #FFFFFF;
-  background-color: #009900;
-  border-top:3px solid #006600;
-  border-bottom:3px  solid #006600;
-  border-left:3px  solid #006600;
-  border-right:3px  solid #006600;
+  background-color: #779122;
+  border-top:3px solid #779122;
+  border-bottom:3px  solid #779122;
+  border-left:3px  solid #779122;
+  border-right:3px  solid #779122;
 }
 
 .update3 {
@@ -73,20 +73,21 @@
   margin-bottom:5px;
   clip : auto;
 
-  color: #000000;
-  background-color: #ffcc00;
-  border-top:3px solid #eeaa00;
-  border-bottom:3px  solid #eeaa00;
-  border-left:3px  solid #eeaa00;
-  border-right:3px  solid #eeaa00;
+  color: #FFFFFF;
+  background-color: #988C7E;
+  border-top:3px solid #988C7E;
+  border-bottom:3px  solid #988C7E;
+  border-left:3px  solid #988C7E;
+  border-right:3px  solid #988C7E;
 }
 
 .updatep {
-  margin-left: 90px;
-  margin-bottom:5px;
-  margin-top:5px;
-  margin-right:5px;
-  font-size: 14px;
+	margin-left: 90px;
+	margin-bottom:5px;
+	margin-top:5px;
+	margin-right:5px;
+	font-size: 13px;
+	font-family: "Century Gothic", "lucida grande", arial;
 }
 .updateimg {
   float: left;
@@ -98,19 +99,19 @@
 
 body {
   /* fallback */
-  background-color: #aaaaaa;
+  background-color: #333333;
   background-position: 50% 50%;
   background-repeat: no-repeat;
 
   /* Firefox 3.6+ */
   /* -moz-radial-gradient( [<position> || <angle>,]? [<shape> || <size>,]? <stop>, <stop>[, <stop>]* ) */
-  background: -moz-radial-gradient(50% 50%, closest-corner, #1a82f7, #2F2727);
+  background: -moz-radial-gradient(50% 50%, closest-corner, #666666, #333333);
 
   /* Safari 4-5, Chrome 1-9 */
-  background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 100, from(#1a82f7), to(#2F2727));
+  background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 100, from(#666666), to(#333333));
 
   /* Safari 5.1+, Chrome 10+ */
-  background: -webkit-radial-gradient(50% 50%, closest-corner, #1a82f7, #2F2727);
+  background: -webkit-radial-gradient(50% 50%, closest-corner, #666666, #333333);
 
   /* Opera cannot do radial gradients yet */
 }
@@ -123,7 +124,7 @@ body {
 }
 
 .logo {
-background: url('http://static02.linkedin.com/scds/common/u/img/sprite/sprite_global_v5.png') no-repeat;
+background: url('logo.png') no-repeat;
 display: block;
 height: 22px;
 width: 100px;
@@ -140,12 +141,12 @@ text-indent: -12345px;
   height: 40px;
 
   /* fallback */
-  background-color: #FFFFFF;
+  background-color: #333333;
   background-position: 50% 50%;
   background-repeat: no-repeat;
 
-  background: -moz-linear-gradient(0deg, #FFFFFF, #1a82f7);
-  background: -webkit-gradient(linear, right, left, from(#1a82f7), to(#FFFFFF));
+  background: -moz-linear-gradient(0deg, #333333, #666666);
+  background: -webkit-gradient(linear, right, left, from(#333333), to(#666666));
   /* Firefox 3.6+ */
   /* -moz-radial-gradient( [<position> || <angle>,]? [<shape> || <size>,]? <stop>, <stop>[, <stop>]* ) */
 
