@@ -11,10 +11,10 @@
   var tid = -1;
   var bltid = -1;
   var maxPollInterval = 20000;
-  var normalPollInterval = 250;
+  var normalPollInterval = 300;
   var pollInterval = 10;
 
-  var fetchCount = 100;
+  var fetchCount = 32;
 
   var divMap = {};
   var updateMap = {};
@@ -33,7 +33,7 @@
   var maxPalRequests = 1;
   var maxColors = 4;
 
-  defaultImgUrl = "http://static01.linkedin.com/scds/common/u/img/bg/bg_newspaper_104x96.png";
+  var networkQuery = "network,0,1";
 
   colorIdx = 0;
   colorMap = {};
@@ -42,10 +42,10 @@
   {
     Array.prototype.shuffle = function()
     {
-      if (this.length <= 1) return this;
-      var result = this.concat();
-      result.sort(function() {return 0.5 - Math.random()});
-      return result;
+//      if (this.length <= 1) return this;
+//      var result = this.concat();
+      this.sort(function() {return 0.5 - Math.random()});
+      return this;
     };
   }
 
@@ -72,14 +72,14 @@
       if (fetchCount > 0)
       {
         // only scan our 1st degree network looking for new articles
-        var params = {facet:"network,0,1", facets:"industry,company", count: fetchCount};
+        var params = {facet:networkQuery, facets:"industry,company", count: fetchCount};
         IN.API.Raw("/signal-search:(offset,facets,updates,num-results)").params(params).result(processFetchResults).error(displayNetworkUpdatesError);
         fetchCount = 0;
         outstandingPalRequests++;
       }
       else
       {
-        var params = {facet:"network,0,1", facets:"industry,company", after: after, poll:"true"};
+        var params = {facet:networkQuery, facets:"industry,company", after: after, poll:"true"};
         IN.API.Raw("/signal-search:(offset,facets,updates,num-results)").params(params).result(processPollCountFetchResults).error(displayNetworkUpdatesError);
       }
       didSomething = true;
@@ -123,7 +123,7 @@
       trace('bl query: ' + query);
 
       // scan 0,1,2 degree networks to include attributions
-      var params = {facet:"network,0,1", facets:"industry", count:10, keywords: query};
+      var params = {facet:networkQuery, facets:"industry", count:10, keywords: query};
       IN.API.Raw("/signal-search").params(params).result(processBacklogFetchResults).error(displayNetworkUpdatesError);
       outstandingPalRequests++;
     }
@@ -197,8 +197,6 @@
         trace(value.code);
       });
       updateMap[update.updateKey] = {update:update, facets:facets};
-
-      // http://www.linkedin.com/cws/share-count?url=http://www.cnn.com
     }
 
     readyQueue.shuffle(); // prevents one user's updates from dominating at the expense of chrono ordering
@@ -215,16 +213,21 @@
       return;
     }
 
-    imgUrl = share.content.thumbnailUrl == undefined
-               ? defaultImgUrl
-               : share.content.thumbnailUrl;
-
     if (share.content.submittedUrl != undefined) {
       if (visitedMap[share.content.submittedUrl] != undefined) return false;
       visitedMap[share.content.submittedUrl] = true;
     }
 
-    var data = {color: -1, url: share.content.eyebrowUrl, img: imgUrl, text: share.content.title};
+    //share.content.thumbnailUrl
+    var data = {
+      color: -1,
+      url: share.content.eyebrowUrl,
+      img: person.pictureUrl,
+      text: share.content.title};
+
+    $.get("http://www.linkedin.com/cws/share-count?url="+share.content.submittedUrl, function(data) {
+      trace(data);
+    });
 
     sys.addNode(update.updateKey, data);
     sys.addEdge(update.updateKey, "0", {});
@@ -234,6 +237,8 @@
 
     $.each(facets, function(index, value)
     {
+      data.facetName = facetName = industryNameMap[value.code] != undefined ? industryNameMap[value.code] : "";
+
       if (data.color == -1) {
         if (colorMap[value.code] == undefined)
         {
@@ -252,7 +257,7 @@
         {
           trace("  connects to: " + v2.updateKey);
           sys.addEdge(update.updateKey, v2.updateKey, {});
-          sys.addEdge(v2.updateKey, update.updateKey, {});
+//          sys.addEdge(v2.updateKey, update.updateKey, {});
         });
       }
       else
@@ -312,11 +317,11 @@
       },
       redraw:function()
       {
-        gfx.clear()
+        gfx.clear();
         sys.eachEdge(function(edge, p1, p2)
                      {
-                       if (edge.source.data.alpha * edge.target.data.alpha == 0) return
-                       gfx.line(p1, p2, {stroke:"#1a82f7", width:1, alpha:edge.target.data.alpha})
+//                       if (edge.source.data.alpha * edge.target.data.alpha == 0) return
+                       gfx.line(p1, p2, {stroke:"#7f7f7f", width:1, alpha: 0.5})
                      })
         sys.eachNode(function(node, pt)
                      {
@@ -325,24 +330,32 @@
                        {
                          var id = "div_" + node.name;
                          var imgTag;
-                         if (node.data.img == defaultImgUrl) {
-                           imgTag = "<img class='updateimg' width='80px' src='" + node.data.img + "'/>";
+                         var textTag;
+                         if (node.data.img == undefined
+                             || node.data.img == "https://www.linkedin.com/media-proxy/ext?w=80&h=100&hash=nwPjKTbWxd29U2O8wALPidJSp2o%3D&url=http%3A%2F%2Fstatic01.linkedin.com%2Fscds%2Fcommon%2Fu%2Fimg%2Flogos%2Flogo_signal_120x120.png"
+                             || node.data.img == "https://www.linkedin.com/media-proxy/ext?w=80&h=100&hash=ttnfXkxr9kjtq1O4pggdcZC2HHs%3D&url=http%3A%2F%2Fmedia03.linkedin.com%2Fmedia%2Fp%2F3%2F000%2F0bc%2F1d8%2F393c029.png")
+                         {
+                           imgTag = "";
+                           textTag = "<p class='updatepni'>" + node.data.text + "</p>";
                          }
                          else
                          {
-                           imgTag = "<img class='updateimg' src='" + node.data.img + "'/>";
+                           imgTag = "<img id='divi_"+id+"' class='updateimg' src='" + node.data.img + "'/>";
+                           textTag = "<p class='updatep'>" + node.data.text + "</p>";
                          }
-                         var textTag = "<p class='updatep'>" + node.data.text + "</p>";
-                         var closeTag = "<img id='img_"+id+"' class='closeTag' src='close-cross.jpg'/>"
+                         var facetNameTag = "<div id='divfn_"+id+"' class='divfn'><p class='updateFacetName'>" + node.data.facetName + "</p></div>";
+                         var closeTag = "<img id='img_"+id+"' class='closeTag' src='closeAppear.png'/>"
                          var div = jQuery('<div/>', {
                            id: id,
                            class: "update" + node.data.color,
-                           html: imgTag + textTag + closeTag,
+                           html: imgTag + textTag + closeTag + facetNameTag,
                            mouseover: function() {
                              $('#img_'+id).css('visibility', 'visible');
+                             node.fixed = true;
                            },
                            mouseout: function() {
                              $('#img_'+id).css('visibility', 'hidden');
+                             node.fixed = false;
                            },
                            click: function(e)
                            {
@@ -354,7 +367,8 @@
                            }
                          });
                          div.appendTo('#networkupdates');
-                         $('#' + id).corner();
+                         $('#' + id).corner("80px");
+                         $('#divi_' + id).corner("80px");
                          divMap[node.name] = $('#' + id);
                        }
                        divMap[node.name].offset({ top:  pt.y - 8, left: pt.x - 225 / 2 });
@@ -387,6 +401,7 @@
 
             return false
           },
+
           dragged:function(e)
           {
             var pos = $(canvas).offset();
@@ -410,7 +425,7 @@
               dragged.node.fixed = false
               if (!dragged.node.data.moved)
               {
-                deleteNode(dragged.node);
+//                deleteNode(dragged.node);
               }
             }
             dragged.node.tempMass = 1000
@@ -469,7 +484,7 @@
 
   $(document).ready(function()
                     {
-                      sys = arbor.ParticleSystem(700, 120, 0.24, true, 55, 0.005, 0.4) // create the system with sensible repulsion/stiffness/friction
+                      sys = arbor.ParticleSystem(700, 120, 0.44, true, 55, 0.005, 0.4) // create the system with sensible repulsion/stiffness/friction
 //                          sys = arbor.ParticleSystem();
 //                          sys.parameters({stiffness:500, repulsion:50, gravity:true, dt:0.005});
                       sys.renderer = Renderer("#sitemap")
@@ -477,12 +492,6 @@
                       // load the data into the particle system as is (since it's already formatted correctly for .grafting)
                       var data = $.getJSON("g/n.json?p=0.30&count=0", function(data)
                       {
-                        $.each(data.nodes, function(key, value)
-                        {
-//                                value.color = 0;
-                          value.alpha = 1.0;
-                        });
-
                         sys.graft({nodes:data.nodes, edges:data.edges})
                       });
 

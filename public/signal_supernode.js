@@ -449,7 +449,7 @@
                     {
 //                      sys = arbor.ParticleSystem(800, 150, 0.5, true, 55, 0.005, 0.4)
                       sys = arbor.ParticleSystem();
-                      sys.parameters({stiffness:800, repulsion:150, friction: 0.4, gravity:true, dt:0.005});
+                      sys.parameters({stiffness:800, repulsion:150, friction: 0.15, gravity:true, dt:0.005});
                       sys.renderer = Renderer("#sitemap")
 
 /*
