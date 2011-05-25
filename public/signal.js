@@ -263,7 +263,7 @@
       }
       else
       {
-        sys.addNode("facetName_"+value.code, {text: data.facetName, type:"facet", color:data.color});
+        sys.addNode("facetName_"+value.code, {text: data.facetName, type:"facet", color:data.color, mass: 3});
         sys.addEdge(update.updateKey, "facetName_"+value.code);
         facetMap[value.code] = new Array();
       }
