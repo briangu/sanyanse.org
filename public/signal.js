@@ -263,7 +263,7 @@
       }
       else
       {
-        sys.addNode("facetName_"+value.code, {text: data.facetName, type:"facet"});
+        sys.addNode("facetName_"+value.code, {text: data.facetName, type:"facet", color:data.color});
         sys.addEdge(update.updateKey, "facetName_"+value.code);
         facetMap[value.code] = new Array();
       }
@@ -328,7 +328,7 @@
                      })
         sys.eachNode(function(node, pt)
                      {
-                       if (node.data.text == undefined) return;
+                       if (node.data.text == undefined) return true;
                        if (divMap[node.name] == undefined)
                        {
                          var id = "div_" + node.name;
@@ -372,11 +372,11 @@
                              }
                            });
                          } else {
-                           var facetNameTag = "<p class='updateFacetName'>" + node.data.text + "</p>";
+                           var facetNameTag = "<p class='updateFacetName"+ node.data.color + "'>" + node.data.text + "</p>";
 
                            var div = jQuery('<div/>', {
                              id: id,
-                             class: "facetLabel",
+//                             class: "facetLabel"+node.data.color,
                              html: facetNameTag
                            });
                          }

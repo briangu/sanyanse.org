@@ -21,10 +21,13 @@
 
   color: #FFFFFF;
   background-color: #9E5660;
-  border-top:3px solid #9E5660;
-  border-bottom:3px  solid #9E5660;
-  border-left:3px  solid #9E5660;
-  border-right:3px  solid #9E5660;
+}
+
+.updateFacetName0 {
+	font-size: 26px;
+	font-family: "Century Gothic", "lucida grande", arial;
+  width: 225px;
+  color: #9E5660;
 }
 
 .update1 {
@@ -39,10 +42,13 @@
 
   color: #FFFFFF;
   background-color: #00A1AE;
-  border-top:3px solid #00A1AE;
-  border-bottom:3px  solid #00A1AE;
-  border-left:3px  solid #00A1AE;
-  border-right:3px  solid #00A1AE;
+}
+
+.updateFacetName1 {
+	font-size: 26px;
+	font-family: "Century Gothic", "lucida grande", arial;
+  width: 225px;
+  color: #00A1AE;
 }
 
 .update2 {
@@ -57,10 +63,13 @@
 
   color: #FFFFFF;
   background-color: #779122;
-  border-top:3px solid #779122;
-  border-bottom:3px  solid #779122;
-  border-left:3px  solid #779122;
-  border-right:3px  solid #779122;
+}
+
+.updateFacetName2 {
+	font-size: 26px;
+	font-family: "Century Gothic", "lucida grande", arial;
+  width: 225px;
+  color: #779122;
 }
 
 .update3 {
@@ -75,19 +84,13 @@
 
   color: #FFFFFF;
   background-color: #988C7E;
-  border-top:3px solid #988C7E;
-  border-bottom:3px  solid #988C7E;
-  border-left:3px  solid #988C7E;
-  border-right:3px  solid #988C7E;
 }
 
-.facetLabel {
-  color: #FFFFFF;
-}
-
-.updateFacetName {
-	font-size: 28px;
+.updateFacetName3 {
+	font-size: 26px;
 	font-family: "Century Gothic", "lucida grande", arial;
+  width: 225px;
+  color: #988C7E;
 }
 
 .updatep {
@@ -112,9 +115,9 @@
 }
 .updateimg {
   float: left;
-  margin-left:0px;
-  margin-top:5px;
-  margin-bottom:0px;
+  margin-left:5px;
+  margin-top:8px;
+  margin-bottom:5px;
   vertical-align: middle;
   width:75px;
 }
@@ -203,7 +206,7 @@ text-indent: -12345px;
 
 .button_text {
   color: #FFFFFF;
-  font-size: 28;
+  font-size: 26;
   z-index: 999;
   top: -25px;
   position: absolute;
