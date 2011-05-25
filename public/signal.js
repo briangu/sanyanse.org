@@ -348,7 +348,7 @@
                              imgTag = "<img id='divi_"+id+"' class='updateimg' src='" + node.data.img + "'/>";
                              textTag = "<p class='updatep'>" + node.data.text + "</p>";
                            }
-                           var closeTag = "<img id='img_"+id+"' class='closeTag' src='closeAppear.png'/>"
+                           var closeTag = "<img id='img_"+id+"' class='closeTag' src='close-cross.png'/>"
 
                            var div = jQuery('<div/>', {
                              id: id,
@@ -499,7 +499,7 @@
 
   $(document).ready(function()
                     {
-                      sys = arbor.ParticleSystem(700, 120, 0.44, true, 55, 0.005, 0.4) // create the system with sensible repulsion/stiffness/friction
+                      sys = arbor.ParticleSystem(700, 300, 0.34, true, 55, 0.005, 0.4) // create the system with sensible repulsion/stiffness/friction
 //                          sys = arbor.ParticleSystem();
 //                          sys.parameters({stiffness:500, repulsion:50, gravity:true, dt:0.005});
                       sys.renderer = Renderer("#sitemap")
