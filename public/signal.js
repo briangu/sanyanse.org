@@ -14,7 +14,7 @@
   var normalPollInterval = 300;
   var pollInterval = 10;
 
-  var fetchCount = 32;
+  var fetchCount = 64;
 
   var divMap = {};
   var updateMap = {};
@@ -30,10 +30,10 @@
   var nodeCount = 0;
   var maxNodes = 12;
   var outstandingPalRequests = 0;
-  var maxPalRequests = 1;
+  var maxPalRequests = 2;
   var maxColors = 4;
 
-  var networkQuery = "network,0,1";
+  var networkQuery = "network,0,1,2";
 
   colorIdx = 0;
   colorMap = {};
