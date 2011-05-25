@@ -81,6 +81,15 @@
   border-right:3px  solid #988C7E;
 }
 
+.facetLabel {
+  color: #FFFFFF;
+}
+
+.updateFacetName {
+	font-size: 28px;
+	font-family: "Century Gothic", "lucida grande", arial;
+}
+
 .updatep {
   height: 70px;
 	margin-left: 90px;
@@ -107,13 +116,7 @@
   margin-top:5px;
   margin-bottom:0px;
   vertical-align: middle;
-}
-
-.updateFacetName {
-  width: 225px;
-  text-align: center;
-  font-size: 10px;
-  color: #000000;
+  width:75px;
 }
 
 .divfn {
@@ -204,6 +207,7 @@ text-indent: -12345px;
   z-index: 999;
   top: -25px;
   position: absolute;
+  font-family: "Century Gothic", "lucida grande", arial;
 }
 
 .industry {

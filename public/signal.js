@@ -223,7 +223,9 @@
       color: -1,
       url: share.content.eyebrowUrl,
       img: person.pictureUrl,
-      text: share.content.title};
+      text: share.content.title,
+      type: "update"
+    };
 
     $.get("http://www.linkedin.com/cws/share-count?url="+share.content.submittedUrl, function(data) {
       trace(data);
@@ -257,11 +259,12 @@
         {
           trace("  connects to: " + v2.updateKey);
           sys.addEdge(update.updateKey, v2.updateKey, {});
-//          sys.addEdge(v2.updateKey, update.updateKey, {});
         });
       }
       else
       {
+        sys.addNode("facetName_"+value.code, {text: data.facetName, type:"facet"});
+        sys.addEdge(update.updateKey, "facetName_"+value.code);
         facetMap[value.code] = new Array();
       }
 
@@ -329,43 +332,55 @@
                        if (divMap[node.name] == undefined)
                        {
                          var id = "div_" + node.name;
-                         var imgTag;
-                         var textTag;
-                         if (node.data.img == undefined
-                             || node.data.img == "https://www.linkedin.com/media-proxy/ext?w=80&h=100&hash=nwPjKTbWxd29U2O8wALPidJSp2o%3D&url=http%3A%2F%2Fstatic01.linkedin.com%2Fscds%2Fcommon%2Fu%2Fimg%2Flogos%2Flogo_signal_120x120.png"
-                             || node.data.img == "https://www.linkedin.com/media-proxy/ext?w=80&h=100&hash=ttnfXkxr9kjtq1O4pggdcZC2HHs%3D&url=http%3A%2F%2Fmedia03.linkedin.com%2Fmedia%2Fp%2F3%2F000%2F0bc%2F1d8%2F393c029.png")
-                         {
-                           imgTag = "";
-                           textTag = "<p class='updatepni'>" + node.data.text + "</p>";
-                         }
-                         else
-                         {
-                           imgTag = "<img id='divi_"+id+"' class='updateimg' src='" + node.data.img + "'/>";
-                           textTag = "<p class='updatep'>" + node.data.text + "</p>";
-                         }
-                         var facetNameTag = "<div id='divfn_"+id+"' class='divfn'><p class='updateFacetName'>" + node.data.facetName + "</p></div>";
-                         var closeTag = "<img id='img_"+id+"' class='closeTag' src='closeAppear.png'/>"
-                         var div = jQuery('<div/>', {
-                           id: id,
-                           class: "update" + node.data.color,
-                           html: imgTag + textTag + closeTag + facetNameTag,
-                           mouseover: function() {
-                             $('#img_'+id).css('visibility', 'visible');
-                             node.fixed = true;
-                           },
-                           mouseout: function() {
-                             $('#img_'+id).css('visibility', 'hidden');
-                             node.fixed = false;
-                           },
-                           click: function(e)
+
+                         if (node.data.type == "update") {
+                           var imgTag;
+                           var textTag;
+                           if (node.data.img == undefined
+                               || node.data.img == "https://www.linkedin.com/media-proxy/ext?w=80&h=100&hash=nwPjKTbWxd29U2O8wALPidJSp2o%3D&url=http%3A%2F%2Fstatic01.linkedin.com%2Fscds%2Fcommon%2Fu%2Fimg%2Flogos%2Flogo_signal_120x120.png"
+                               || node.data.img == "https://www.linkedin.com/media-proxy/ext?w=80&h=100&hash=ttnfXkxr9kjtq1O4pggdcZC2HHs%3D&url=http%3A%2F%2Fmedia03.linkedin.com%2Fmedia%2Fp%2F3%2F000%2F0bc%2F1d8%2F393c029.png")
                            {
-                             if (e.target.id == "img_"+id) {
-                               deleteNode(node);
-                             } else {
-                               window.open(node.data.url);
-                             }
+                             imgTag = "";
+                             textTag = "<p class='updatepni'>" + node.data.text + "</p>";
                            }
-                         });
+                           else
+                           {
+                             imgTag = "<img id='divi_"+id+"' class='updateimg' src='" + node.data.img + "'/>";
+                             textTag = "<p class='updatep'>" + node.data.text + "</p>";
+                           }
+                           var closeTag = "<img id='img_"+id+"' class='closeTag' src='closeAppear.png'/>"
+
+                           var div = jQuery('<div/>', {
+                             id: id,
+                             class: "update" + node.data.color,
+                             html: imgTag + textTag + closeTag,
+                             mouseover: function() {
+                               $('#img_'+id).css('visibility', 'visible');
+                               node.fixed = true;
+                             },
+                             mouseout: function() {
+                               $('#img_'+id).css('visibility', 'hidden');
+                               node.fixed = false;
+                             },
+                             click: function(e)
+                             {
+                               if (e.target.id == "img_"+id) {
+                                 deleteNode(node);
+                               } else {
+                                 window.open(node.data.url);
+                               }
+                             }
+                           });
+                         } else {
+                           var facetNameTag = "<p class='updateFacetName'>" + node.data.text + "</p>";
+
+                           var div = jQuery('<div/>', {
+                             id: id,
+                             class: "facetLabel",
+                             html: facetNameTag
+                           });
+                         }
+
                          div.appendTo('#networkupdates');
                          $('#' + id).corner("80px");
                          $('#divi_' + id).corner("80px");
