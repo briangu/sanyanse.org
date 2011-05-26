@@ -229,7 +229,6 @@
       updateText = updateText.substring(0,maxTextLength) + "...";
     }
 
-    //share.content.thumbnailUrl
     var data = {
       color: -1,
       url: share.content.eyebrowUrl,
@@ -278,7 +277,7 @@
         fndata = {text: data.facetName, type:"facet", color:data.color, mass: 2};
         sys.addNode("facetName_"+value.code, fndata);
         edge = sys.addEdge(update.updateKey, "facetName_"+value.code);
-        edge.length = 0.15;
+        edge.length = 0.05;
         facetMap[value.code] = new Array();
       }
 
@@ -323,7 +322,6 @@
         sys.screen({size:{width:dom.width(), height:dom.height()}, padding:[100,100,100,100]})
         $(window).resize(that.resize)
         that.resize()
-        that._initMouseHandling()
       },
       resize:function()
       {
@@ -349,7 +347,7 @@
 
                          if (node.data.type == "update") {
                            var imgTag = "<img id='divi_"+id+"' class='updateimg' src='" + node.data.img + "'/>";
-                           var textTag = "<p class='updatep'>" + node.data.text + "</p>";
+                           var textTag = "<p id='divtxt_"+id+"' class='updatep'>" + node.data.text + "</p>";
                            var closeTag = "<img id='img_"+id+"' class='closeTag' src='close-cross.png'/>"
 
                            var div = jQuery('<div/>', {
@@ -411,78 +409,15 @@
                            }
                          });
 
+                         $('#divtxt_'+id).hover(function() {
+
+                         });
+
                          $('#divi_' + id).corner("80px");
                          divMap[node.name] = $('#' + id);
                        }
                        divMap[node.name].offset({ top:  pt.y - 8, left: pt.x - 225 / 2 });
                      })
-      },
-
-      _initMouseHandling:function()
-      {
-        // no-nonsense drag and drop (thanks springy.js)
-        var dragged = null;
-
-        // set up a handler object that will initially listen for mousedowns then
-        // for moves and mouseups while dragging
-        var handler = {
-          clicked:function(e)
-          {
-/*
-            var pos = $(canvas).offset();
-            _mouseP = arbor.Point(e.pageX - pos.left, e.pageY - pos.top)
-            dragged = sys.nearest(_mouseP);
-
-            if (dragged && dragged.node !== null)
-            {
-              // while we're dragging, don't let physics move the node
-              dragged.node.fixed = true
-              dragged.node.data.moved = false
-            }
-
-            $(canvas).bind('mousemove', handler.dragged)
-            $(window).bind('mouseup', handler.dropped)
-*/
-            return false
-          },
-
-          dragged:function(e)
-          {
-/*
-            var pos = $(canvas).offset();
-            var s = arbor.Point(e.pageX - pos.left, e.pageY - pos.top)
-
-            if (dragged && dragged.node !== null)
-            {
-              var p = sys.fromScreen(s)
-              dragged.node.p = p
-              dragged.node.data.moved = true
-            }
-*/
-            return false
-          },
-
-          dropped:function(e)
-          {
-/*
-            if (dragged === null || dragged.node === undefined) return
-            if (dragged.node !== null)
-            {
-              dragged.node.fixed = false
-            }
-            dragged.node.tempMass = 1000
-            dragged = null
-            $(canvas).unbind('mousemove', handler.dragged)
-            $(window).unbind('mouseup', handler.dropped)
-            _mouseP = null
-*/
-            return false
-          }
-        }
-
-        // start listening
-        $(canvas).mousedown(handler.clicked);
-
       }
     }
 
