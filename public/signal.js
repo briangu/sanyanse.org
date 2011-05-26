@@ -452,7 +452,7 @@
 
       if (value.target.data.type == "facet") {
         if (facetMap[node.data.code] != undefined) {
-          edge = sys.addEdge(facetMap[node.data.code][0].updateKey, value.target.name, {length: 0.05});
+          edge = sys.addEdge(facetMap[node.data.code][0].updateKey, value.target.name, {length: 0.5});
         } else {
           deleteNode(value.target);
         }
