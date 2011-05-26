@@ -14,6 +14,8 @@
 	font-size: 26px;
 	font-family: "Century Gothic", "lucida grande", arial;
   width: 225px;
+  clip: rect(0px, 225px, 90px, 0px);
+  overflow: hidden;
 }
 
 .update0 {

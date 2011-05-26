@@ -32,8 +32,8 @@
   var outstandingPalRequests = 0;
   var maxPalRequests = 2;
   var maxColors = 6;
-  var maxTextLength = "David Einhorn, hedge-fund star, calls for Microsoft CEO Steve".length;
-  var networkQuery = "network,0,1,2";
+  var maxTextLength = "David Einhorn, hedge-fund star, calls for Microsoft CEO Ste".length;
+  var networkQuery = "network,0,1";
 
   colorIdx = 0;
   colorMap = {};
@@ -378,10 +378,11 @@
                              }
                            });
                          } else {
-                           var facetNameTag = "<p class='updateFacetNameBase updateFacetName"+ node.data.color + "'>" + node.data.text + "</p>";
+                           var facetNameTag = "<p class='updateFacetName"+ node.data.color + "'>" + node.data.text + "</p>";
                            var div = jQuery('<div/>', {
                              id: id,
-                             html: facetNameTag
+                             html: facetNameTag,
+                             class: "updateFacetNameBase"
                            });
                          }
 
