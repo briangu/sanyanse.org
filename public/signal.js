@@ -19,8 +19,6 @@
   var divMap = {};
   var updateMap = {};
   var facetMap = {};
-  facetMap["industry"] = {};
-  facetMap["company"] = {};
 
   var visitedMap = {};
 
@@ -258,6 +256,7 @@
           colorMap[value.code] = colorIdx;
           colorIdx = (colorIdx + 1) % maxColors;
         }
+        data.code = value.code;
         data.color = colorMap[value.code];
       }
 
@@ -276,8 +275,7 @@
       {
         fndata = {text: data.facetName, type:"facet", color:data.color, mass: 2};
         sys.addNode("facetName_"+value.code, fndata);
-        edge = sys.addEdge(update.updateKey, "facetName_"+value.code);
-        edge.length = 0.05;
+        edge = sys.addEdge(update.updateKey, "facetName_"+value.code, {length: 0.5});
         facetMap[value.code] = new Array();
       }
 
@@ -344,13 +342,14 @@
                        if (divMap[node.name] == undefined)
                        {
                          var id = "div_" + node.name;
+                         var div;
 
                          if (node.data.type == "update") {
                            var imgTag = "<img id='divi_"+id+"' class='updateimg' src='" + node.data.img + "'/>";
                            var textTag = "<p id='divtxt_"+id+"' class='updatep'>" + node.data.text + "</p>";
                            var closeTag = "<img id='img_"+id+"' class='closeTag' src='close-cross.png'/>"
 
-                           var div = jQuery('<div/>', {
+                           div = jQuery('<div/>', {
                              id: id,
                              class: "updateBase update" + node.data.color,
                              html: imgTag + textTag + closeTag,
@@ -379,7 +378,7 @@
                            });
                          } else {
                            var facetNameTag = "<p class='updateFacetName"+ node.data.color + "'>" + node.data.text + "</p>";
-                           var div = jQuery('<div/>', {
+                           div = jQuery('<div/>', {
                              id: id,
                              html: facetNameTag,
                              class: "updateFacetNameBase"
@@ -387,7 +386,13 @@
                          }
 
                          div.appendTo('#networkupdates');
-                         $('#' + id).corner("80px");
+
+                         if (node.data.type == "update") {
+                           $('#' + id).corner("80px");
+  //                         $('#divtxt_'+id).hover(function() {});
+                           $('#divi_' + id).corner("80px");
+                         }
+
                          $('#' + id).draggable({
                            start: function(e, ui) {
                              node.fixed = true;
@@ -410,11 +415,6 @@
                            }
                          });
 
-                         $('#divtxt_'+id).hover(function() {
-
-                         });
-
-                         $('#divi_' + id).corner("80px");
                          divMap[node.name] = $('#' + id);
                        }
                        divMap[node.name].offset({ top:  pt.y - 8, left: pt.x - 225 / 2 });
@@ -427,16 +427,8 @@
 
   var deleteNode = function(node)
   {
-    var edges = sys.getEdgesFrom(node);
-    $.each(edges, function(index, value)
-    {
-      sys.pruneEdge(value);
-    });
-    var edges = sys.getEdgesTo(node);
-    $.each(edges, function(index, value)
-    {
-      sys.pruneEdge(value);
-    });
+    var newFacetMap = {};
+
     $.each(facetMap, function(key, value)
     {
       var tmpArray = new Array();
@@ -447,7 +439,30 @@
           tmpArray.push(v2);
         }
       });
-      facetMap[key] = tmpArray;
+      if (tmpArray.length > 0) {
+        newFacetMap[key] = tmpArray;
+      }
+    });
+    facetMap = newFacetMap;
+
+    var edges = sys.getEdgesFrom(node);
+    $.each(edges, function(index, value)
+    {
+      sys.pruneEdge(value);
+
+      if (value.target.data.type == "facet") {
+        if (facetMap[node.data.code] != undefined) {
+          edge = sys.addEdge(facetMap[node.data.code][0].updateKey, value.target.name, {length: 0.05});
+        } else {
+          deleteNode(value.target);
+        }
+      }
+    });
+
+    var edges = sys.getEdgesTo(node);
+    $.each(edges, function(index, value)
+    {
+      sys.pruneEdge(value);
     });
 
     divMap[node.name].remove();
@@ -455,10 +470,11 @@
 
     sys.pruneNode(node);
     updateMap[node.name] = undefined;
-    // TODO: prune industryMap
-    // does this remove all the edges too?
-    nodeCount--;
-    resetPollTimer(10);
+
+    if (node.data.type != "facet") {
+      nodeCount--;
+      resetPollTimer(10);
+    }
   }
 
   $(document).ready(function()
