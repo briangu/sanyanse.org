@@ -1,4 +1,4 @@
-.update {
+.updateBase {
   position: absolute;
   width:225px;
   height:90px;
@@ -9,95 +9,71 @@
   clip : auto;
 }
 
-.update0 {
-  position: absolute;
-  width:225px;
-  height:90px;
-  margin-left:5px;
-  margin-top:5px;
-  margin-right:5px;
-  margin-bottom:5px;
-  clip : auto;
+.updateFacetNameBase {
+	font-size: 26px;
+	font-family: "Century Gothic", "lucida grande", arial;
+  width: 225px;
+}
 
+.update0 {
   color: #FFFFFF;
   background-color: #9E5660;
 }
 
 .updateFacetName0 {
-	font-size: 26px;
-	font-family: "Century Gothic", "lucida grande", arial;
-  width: 225px;
   color: #9E5660;
 }
 
 .update1 {
-  position: absolute;
-  width:225px;
-  height:90px;
-  margin-left:5px;
-  margin-top:5px;
-  margin-right:5px;
-  margin-bottom:5px;
-  clip : auto;
-
   color: #FFFFFF;
   background-color: #00A1AE;
 }
 
 .updateFacetName1 {
-	font-size: 26px;
-	font-family: "Century Gothic", "lucida grande", arial;
-  width: 225px;
   color: #00A1AE;
 }
 
 .update2 {
-  position: absolute;
-  width:225px;
-  height:90px;
-  margin-left:5px;
-  margin-top:5px;
-  margin-right:5px;
-  margin-bottom:5px;
-  clip : auto;
-
   color: #FFFFFF;
   background-color: #779122;
 }
 
 .updateFacetName2 {
-	font-size: 26px;
-	font-family: "Century Gothic", "lucida grande", arial;
-  width: 225px;
   color: #779122;
 }
 
 .update3 {
-  position: absolute;
-  width:225px;
-  height:90px;
-  margin-left:5px;
-  margin-top:5px;
-  margin-right:5px;
-  margin-bottom:5px;
-  clip : auto;
-
   color: #FFFFFF;
   background-color: #988C7E;
 }
 
 .updateFacetName3 {
-	font-size: 26px;
-	font-family: "Century Gothic", "lucida grande", arial;
-  width: 225px;
   color: #988C7E;
+}
+
+.update4 {
+  color: #FFFFFF;
+  background-color: #ED712B;
+}
+
+.updateFacetName4 {
+  color: #ED712B;
+}
+
+.update5 {
+  color: #FFFFFF;
+  background-color: #3399CC;
+}
+
+.updateFacetName5 {
+  color: #3399CC;
 }
 
 .updatep {
   height: 70px;
-	margin-left: 90px;
+	margin-left: 87px;
 	margin-bottom:13px;
-	margin-top:5px;
+	margin-top:10px;
 	margin-right:13px;
 	font-size: 13px;
 	font-family: "Century Gothic", "lucida grande", arial;
@@ -184,9 +160,8 @@ text-indent: -12345px;
 }
 
 .header {
-/*  clip: rect(0px, 1500px, 40px, 0px); */
   position: absolute;
-  margin-left: 120px;
+  margin-left: 0px;
   margin-top: 0px;
   top: 0px;
   height: 40px;
@@ -196,12 +171,11 @@ text-indent: -12345px;
 
 .footer {
   overflow: hidden;
-/*  clip: rect(0px, 1144px, 60px, 0px); */
   position: absolute;
   margin-left: 0px;
   margin-bottom: 0px;
   left: 0px;
-  bottom: 20px;
+  bottom: 0px;
 }
 
 .button_text {
