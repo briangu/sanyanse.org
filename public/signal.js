@@ -278,7 +278,7 @@
         fndata = {text: data.facetName, type:"facet", color:data.color, mass: 2};
         sys.addNode("facetName_"+value.code, fndata);
         edge = sys.addEdge(update.updateKey, "facetName_"+value.code);
-        edge.length = 0.2;
+        edge.length = 0.15;
         facetMap[value.code] = new Array();
       }
 
@@ -366,6 +366,10 @@
                              },
                              click: function(e)
                              {
+                               if (node.data.wasDragging != undefined) {
+                                 node.data.wasDragging = undefined;
+                                 return;
+                               }
                                if (e.target.id == "img_"+id) {
                                  deleteNode(node);
                                } else if (e.target.id == "divi_" + id) {
@@ -385,6 +389,28 @@
 
                          div.appendTo('#networkupdates');
                          $('#' + id).corner("80px");
+                         $('#' + id).draggable({
+                           start: function(e, ui) {
+                             node.fixed = true;
+                             p = sys.toScreen(node.p);
+                             node.data.dragx = ui.position.left - p.x;
+                             node.data.dragy = ui.position.top - p.y;
+                           },
+                           drag: function(e, ui) {
+                             var pos = $("#sitemap").offset();
+                             var s = arbor.Point(ui.position.left - node.data.dragx, (ui.position.top - node.data.dragy))
+                             var p = sys.fromScreen(s)
+                             node.p = p
+                           },
+                           stop: function() {
+                             node.fixed = false;
+                             node.tempMass = 1000
+                             node.data.wasDragging = true;
+                             node.data.dragx = undefined;
+                             node.data.dragy = undefined;
+                           }
+                         });
+
                          $('#divi_' + id).corner("80px");
                          divMap[node.name] = $('#' + id);
                        }
@@ -402,6 +428,7 @@
         var handler = {
           clicked:function(e)
           {
+/*
             var pos = $(canvas).offset();
             _mouseP = arbor.Point(e.pageX - pos.left, e.pageY - pos.top)
             dragged = sys.nearest(_mouseP);
@@ -415,12 +442,13 @@
 
             $(canvas).bind('mousemove', handler.dragged)
             $(window).bind('mouseup', handler.dropped)
-
+*/
             return false
           },
 
           dragged:function(e)
           {
+/*
             var pos = $(canvas).offset();
             var s = arbor.Point(e.pageX - pos.left, e.pageY - pos.top)
 
@@ -430,12 +458,13 @@
               dragged.node.p = p
               dragged.node.data.moved = true
             }
-
+*/
             return false
           },
 
           dropped:function(e)
           {
+/*
             if (dragged === null || dragged.node === undefined) return
             if (dragged.node !== null)
             {
@@ -446,6 +475,7 @@
             $(canvas).unbind('mousemove', handler.dragged)
             $(window).unbind('mouseup', handler.dropped)
             _mouseP = null
+*/
             return false
           }
         }

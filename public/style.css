@@ -7,6 +7,7 @@
   margin-right:5px;
   margin-bottom:5px;
   clip : auto;
+  color: #FFFFFF;
 }
 
 .updateFacetNameBase {
@@ -16,55 +17,43 @@
 }
 
 .update0 {
-  color: #FFFFFF;
   background-color: #9E5660;
 }
-
 .updateFacetName0 {
   color: #9E5660;
 }
 
 .update1 {
-  color: #FFFFFF;
   background-color: #00A1AE;
 }
-
 .updateFacetName1 {
   color: #00A1AE;
 }
 
 .update2 {
-  color: #FFFFFF;
   background-color: #779122;
 }
-
 .updateFacetName2 {
   color: #779122;
 }
 
 .update3 {
-  color: #FFFFFF;
   background-color: #988C7E;
 }
-
 .updateFacetName3 {
   color: #988C7E;
 }
 
 .update4 {
-  color: #FFFFFF;
   background-color: #ED712B;
 }
-
 .updateFacetName4 {
   color: #ED712B;
 }
 
 .update5 {
-  color: #FFFFFF;
   background-color: #3399CC;
 }
-
 .updateFacetName5 {
   color: #3399CC;
 }
